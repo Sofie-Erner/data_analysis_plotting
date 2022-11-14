@@ -9,8 +9,7 @@ if ( len(sys.argv) < 2 ): # less than three command line arguments
     quit()
 
 file_input = sys.argv[1] # file to read from
-file_suff = file_input.replace("data_","") # remove part of input file name
-print(file_suff)
+file_suff = file_input.replace("data_","").replace(".csv","") # remove part of input file name
 
 # ---------- Variables ----------
 m_values = np.array([]) # array for mass values
@@ -78,11 +77,19 @@ elif same_data_points == 1: # not the same number of data points
 
         n_i = len(data[m]) # number of data points
         x_values = np.linspace(1,n_i,n_i) # list for number of data points
-        ax2[i].ax2.scatter(x_values,data[m])
+        
+        ax2[i].scatter(x_values,data[m])
         ax2[i].set_title("data for "+str(m))
 
         ax2[i].set_xlabel("Data Point Number")
-        ax2[i].set_ylabel("Data Value")
+        ax2[i].set_xticks(x_values)
+
+        ax2[i].grid(True) # add grid lines
+
+    ax2[0].set_ylabel("Data Values") # only add y-value to first subplot
+
+    fig2.subplots_adjust(wspace=0.3) # move subplots away from each other
+    fig2.savefig("individual_"+file_suff+".png" , bbox_inches='tight', dpi=250)
 
 
 else: # other option??
@@ -108,20 +115,23 @@ for ax in fig_axes: # loop over plots
      # --- set x-axis labels
     if ax in [ax1]:
         ax.set_xlabel("Mass")
-    if ax in [ax2]:
+    if same_data_points == 0 and ax in [ax2]:
         ax.set_xlabel("Data Point Number")
 
      # --- set y-axis labels
     if ax in [ax1]:
         ax.set_ylabel("Sum of Data")
-    if ax in [ax2]:
+    if same_data_points == 0 and ax in [ax2]:
         ax.set_ylabel("Data Value")
 
     # --- set legends
-    if ax in [ax2]:
+    if same_data_points == 0 and ax in [ax2]:
         figs[iter].legend(loc='upper left',bbox_to_anchor=(0.125, 0.88))
 
+    # --- add grid lines
+    ax.grid(True) # add grid lines
+
     # --- save plot
-    figs[iter].savefig(plot_titles[iter]+".png" , bbox_inches='tight', dpi=250)
+    figs[iter].savefig(plot_titles[iter]+"_"+file_suff+".png" , bbox_inches='tight', dpi=250)
 
     iter+=1
