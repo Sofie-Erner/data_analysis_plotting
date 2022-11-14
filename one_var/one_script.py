@@ -14,7 +14,6 @@ file_suff = file_input.replace("data_","").replace(".csv","") # remove part of i
 # ---------- Variables ----------
 m_values = np.array([]) # array for mass values
 data = {} # dictionary for data for each mass value
-data_sums = np.array([]) # array for the sum of data for each mass value
 same_data_points = 0 # 0: same number of data points, 1: not
 
 # ---------- Read data file ----------
@@ -44,12 +43,13 @@ for line in lines: # loop over lines
             same_data_points = 1
 
         data[m] = data_m # add to dictionary
-        data_sums = np.append(data_sums, data_m.sum()) # add sum
-
+        
 in_file.close() # close file
 
 # ---------- Analysis ----------
 n_m = len(m_values) # number of masses
+
+data_sums = [ data[m].sum() for m in m_values ] # array for the sum of data for each mass value
 
 # ---------- Plotting ----------
 # --- plot 1: Sum as a function of mass
@@ -77,7 +77,7 @@ elif same_data_points == 1: # not the same number of data points
 
         n_i = len(data[m]) # number of data points
         x_values = np.linspace(1,n_i,n_i) # list for number of data points
-        
+
         ax2[i].scatter(x_values,data[m])
         ax2[i].set_title("data for "+str(m))
 
