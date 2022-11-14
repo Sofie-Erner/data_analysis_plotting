@@ -1,6 +1,16 @@
 import matplotlib.pyplot as plt # import matplotlib
 import numpy as np
+import sys
 plt.style.use('tableau-colorblind10') # make plots colour-blind friendly 
+
+# ---------- Command Line Arguments ----------
+if ( len(sys.argv) < 2 ): # less than three command line arguments
+    print("Not correct number of command line arguments")
+    quit()
+
+file_input = sys.argv[1] # file to read from
+file_suff = file_input.replace("data_","") # remove part of input file name
+print(file_suff)
 
 # ---------- Variables ----------
 m_values = np.array([]) # array for mass values
@@ -9,7 +19,7 @@ data_sums = np.array([]) # array for the sum of data for each mass value
 same_data_points = 0 # 0: same number of data points, 1: not
 
 # ---------- Read data file ----------
-in_file = open("data.csv","r") # open in read mode
+in_file = open(file_input,"r") # open in read mode
 lines = in_file.readlines() # get lines from file
 
 for line in lines: # loop over lines
