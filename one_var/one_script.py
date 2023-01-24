@@ -43,6 +43,8 @@ for line in lines: # loop over lines
             same_data_points = 1
 
         data[m] = data_m # add to dictionary
+
+#print(data)
         
 in_file.close() # close file
 
@@ -50,6 +52,9 @@ in_file.close() # close file
 n_m = len(m_values) # number of masses
 
 data_sums = [ data[m].sum() for m in m_values ] # array for the sum of data for each mass value
+
+print(m_values)
+print(data_sums)
 
 # ---------- Plotting ----------
 # --- plot 1: Sum as a function of mass
@@ -70,7 +75,7 @@ if same_data_points == 0: # same number of data points
     
 elif same_data_points == 1: # not the same number of data points
     # three individual plots
-    fig2, ax2 = plt.subplots(1,3) # 3 subplots
+    fig2, ax2 = plt.subplots(1,n_m) # 3 subplots
 
     for i in range(0,n_m):
         m = m_values[i] # set mass
