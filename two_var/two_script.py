@@ -87,8 +87,8 @@ if not np.all(c_values[:-1] <= c_values[1:]):
 
 data_sums = [ data[title].sum() for title in titles ] # array for the sum of data for each mass value
 
-print(titles)
-print(data_sums)
+#print(titles)
+#print(data_sums)
 
 #  ----- Sort data
 # as a function of mass
@@ -117,11 +117,28 @@ z_m = np.array(z_m)
 fig1, ax1 = plt.subplots(1,1)
 [X, Y] = np.meshgrid(m_values,c_values) # create grid of masses and couplings
 
-z_step = (np.max(z_c)-np.min(z_c))/100.
+z_step = (np.max(z_c)-np.min(z_c))/10.
 
 levels = np.arange(np.min(z_c), np.max(z_c)+z_step, z_step)
 im = ax1.contourf(X,Y,z_c, levels=levels) # plot grid and values
-plt.colorbar(im, label="Total", format='%.3e')
+#ax1.clabel(im, inline = True, fontsize = 10)
+
+#import matplotlib.cm as cm # matplotlib's color map library
+#cpf = ax1.contourf(X,Y,z_c, len(levels), cmap=cm.Reds)
+
+# Set all level lines to black
+line_colors = ['black' for l in im.levels]
+
+# Make plot and customize axes
+cp = ax1.contour(X, Y, z_c, levels=levels, colors=line_colors)
+ax1.clabel(cp, fontsize=10, colors=line_colors)
+#plt.xticks([0,0.5,1])
+#plt.yticks([0,0.5,1])
+ax1.set_xlabel('X-axis')
+_ = ax1.set_ylabel('Y-axis')
+
+#plt.colorbar(im, label="Total", format='%.3e')
+plt.colorbar(cp, label="Total", format='%.3e')
 
 # --- plot 2: Sum as a function of mass
 fig2, ax2 = plt.subplots(1,1)
@@ -167,7 +184,7 @@ for ax in fic_axes: # loop over plots
     # --- set legends#
     if ax in [ax2]:
         figs[iter].legend(loc='upper left',bbox_to_anchor=(0.125, 0.88))
-    else:
+    elif ax in [ax3]:
         figs[iter].legend()
 
     # --- add grid lines
